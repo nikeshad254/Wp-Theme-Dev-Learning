@@ -19,7 +19,7 @@
             <div class="site-header__menu group">
                 <nav class="main-navigation">
                     <ul>
-                        <li><a href="<?= site_url('/about-us')?>">About Us</a></li>
+                        <li <?php if(is_page('about-us') || wp_get_post_parent_id(0) == 13) echo 'class="current-menu-item"'?>><a href="<?= site_url('/about-us')?>">About Us</a></li>
                         <li><a href="#">Programs</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Campuses</a></li>
