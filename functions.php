@@ -13,4 +13,13 @@ function university_files(){
 // right before the page is loaded, this function will be called by wordpress at the reight movement.
 add_action('wp_enqueue_scripts', 'university_files');
 
+
+function university_features(){
+    // this function will add a title tag to the head of the page
+    add_theme_support('title-tag');
+}
+
+// call the function after the theme is setup
+add_action("after_setup_theme", "university_features");
+
 ?>
