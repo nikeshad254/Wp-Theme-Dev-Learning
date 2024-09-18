@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html <?php language_attributes()?>>
+<html <?php language_attributes() ?>>
 
 <head>
-    <meta charset="<?php bloginfo('charset')?>" >
+    <meta charset="<?php bloginfo('charset') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class()?>>
+<body <?php body_class() ?>>
     <header class="site-header">
         <div class="container">
             <h1 class="school-logo-text float-left">
-                <a href="<?= site_url('/')?>"><strong>Fictional</strong> University</a>
+                <a href="<?= site_url('/') ?>"><strong>Fictional</strong> University</a>
             </h1>
             <span class="js-search-trigger site-header__search-trigger"><i class="fa fa-search"
                     aria-hidden="true"></i></span>
@@ -19,11 +19,11 @@
             <div class="site-header__menu group">
                 <nav class="main-navigation">
                     <ul>
-                        <li <?php if(is_page('about-us') || wp_get_post_parent_id(0) == 13) echo 'class="current-menu-item"'?>><a href="<?= site_url('/about-us')?>">About Us</a></li>
+                        <li <?php if (is_page('about-us') || wp_get_post_parent_id(0) == 13) echo 'class="current-menu-item"' ?>><a href="<?= site_url('/about-us') ?>">About Us</a></li>
                         <li><a href="#">Programs</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Campuses</a></li>
-                        <li><a href="#">Blog</a></li>
+                        <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php site_url('/blog') ?>">Blog</a></li>
                     </ul>
                 </nav>
                 <div class="site-header__util">
