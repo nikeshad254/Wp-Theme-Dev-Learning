@@ -3,6 +3,8 @@
 function university_post_types()
 {
     register_post_type('event', array(
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'events'),
         'public' => true,
         'labels' => array(
             'name' => 'Events',
