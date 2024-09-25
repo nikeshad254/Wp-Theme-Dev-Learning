@@ -42,12 +42,14 @@ while (have_posts()) {
                     'type' => 'numeric'
                 ),
                 array(
-                    'key' => 'related_programs',
+                    'key' => 'related_program',
                     'compare' => 'LIKE',
                     'value' => '"' . get_the_ID() . '"'
                 )
             )
         ));
+
+        echo ("testing" . $homepageEvents->have_posts());
 
         if ($homepageEvents->have_posts()) {
             echo '<hr class="section-break">';
