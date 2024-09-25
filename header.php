@@ -21,7 +21,7 @@
                     <ul>
                         <li <?php if (is_page('about-us') || wp_get_post_parent_id(0) == 13) echo 'class="current-menu-item"' ?>><a href="<?= site_url('/about-us') ?>">About Us</a></li>
                         <li><a href="#">Programs</a></li>
-                        <li <?php if (get_post_type() == 'event') echo 'class="current-menu-item"' ?>><a href="<?= get_post_type_archive_link('event'); ?>">Events</a></li>
+                        <li <?php if (get_post_type() == 'event' || is_page('past-events')) echo 'class="current-menu-item"' ?>><a href="<?= get_post_type_archive_link('event'); ?>">Events</a></li>
                         <li><a href="#">Campuses</a></li>
                         <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php site_url('/blog') ?>">Blog</a></li>
                     </ul>
