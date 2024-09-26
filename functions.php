@@ -28,6 +28,12 @@ function university_features()
 {
     // this function will add a title tag to the head of the page
     add_theme_support('title-tag');
+    // enable the feature of the post thumbnail for the theme
+    add_theme_support('post-thumbnails');
+
+    // custom sizes for any features uploaded
+    add_image_size('professorLandscape', 400, 260, true);
+    add_image_size('professorPortrait', 480, 650, true);
 }
 
 // call the function after the theme is setup
