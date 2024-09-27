@@ -23,7 +23,7 @@
                         <li <?php if (get_post_type() == 'program') echo 'class="current-menu-item"' ?>><a href="<?= get_post_type_archive_link('program') ?>">Programs</a></li>
                         <li <?php if (get_post_type() == 'event' || is_page('past-events')) echo 'class="current-menu-item"' ?>><a href="<?= get_post_type_archive_link('event'); ?>">Events</a></li>
                         <li><a href="#">Campuses</a></li>
-                        <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php site_url('/blog') ?>">Blog</a></li>
+                        <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?= site_url('/blog') ?>">Blog</a></li>
                     </ul>
                 </nav>
                 <div class="site-header__util">

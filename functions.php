@@ -26,7 +26,7 @@ function pageBanner($args = array())
         <div class="page-banner__content container container--narrow">
             <h1 class="page-banner__title"><?php echo $args['title']; ?></h1>
             <div class="page-banner__intro">
-                <p><?php the_field('page_banner_subtitle'); ?></p>
+                <p><?= $args['subtitle']; ?></p>
             </div>
         </div>
     </div>
