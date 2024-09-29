@@ -98,3 +98,10 @@ function university_adjust_queries($query)
 }
 
 add_action('pre_get_posts', 'university_adjust_queries');
+
+// function universityMapKey($api)
+// {
+//     $api['key'] = 'google-doesnt-give-free-api-keys-anymore';
+//     return $api;
+// }
+// add_filter('acf/fields/google_map/api', 'universityMapKey');
