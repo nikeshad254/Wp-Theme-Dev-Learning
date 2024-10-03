@@ -46,6 +46,7 @@ function university_files()
     wp_enqueue_script('main-university-js', get_theme_file_uri('/scripts.js'), array('jquery'), '1.0', true);
     wp_enqueue_style('university_main_styles', get_stylesheet_uri());
 
+    // this function will pass the data to the javascript file (scripts.js) as a global variable
     wp_localize_script('main-university-js', 'universityData', array(
         'root_url' => get_site_url(),
         'nonce' => wp_create_nonce('wp_rest')
