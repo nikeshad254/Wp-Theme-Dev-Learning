@@ -1,3 +1,16 @@
 <?php
 
-add_action('rest_api_init', 'university_custom_rest');
+add_action('rest_api_init', 'universityRegisterSearch');
+
+function universityRegisterSearch()
+{
+    register_rest_route('university/v1', 'search', array(
+        'methods' => WP_REST_SERVER::READABLE, // or GET
+        'callback' => 'universitySearchResults'
+    ));
+}
+
+function universitySearchResults()
+{
+    return 'Congratulations, you created a route.';
+}
