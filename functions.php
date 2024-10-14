@@ -69,7 +69,7 @@ function university_files()
     // this function will pass the data to the javascript file (scripts.js) as a global variable
     wp_localize_script('main-university-js', 'universityData', array(
         'root_url' => get_site_url(),
-        'nonce' => wp_create_nonce('wp_rest')
+        'nonce' => wp_create_nonce('wp_rest') // for session id on private requests
     ));
 }
 
