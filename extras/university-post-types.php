@@ -71,8 +71,10 @@ function university_post_types()
         'menu_icon' => 'dashicons-welcome-learn-more',
     ));
 
-    // note professor type
+    // note post type
     register_post_type('note', array(
+        'capability_type' => 'note',
+        'map_meta_cap' => true,
         'show_in_rest' => true,
         'supports' => array('title', 'editor'),
         'public' => false, // dont show in public request
@@ -85,6 +87,21 @@ function university_post_types()
             'singular_name' => 'Note',
         ),
         'menu_icon' => 'dashicons-welcome-write-blog',
+    ));
+
+    // like post type
+    register_post_type('like', array(
+        'supports' => array('title'),
+        'public' => false, // dont show in public request
+        'show_ui' => true, // show in admin dashboard
+        'labels' => array(
+            'name' => 'Like',
+            'add_new_item' => 'Add New Like',
+            'edit_item' => 'Edit Like',
+            'all_items' => 'All Like',
+            'singular_name' => 'Like',
+        ),
+        'menu_icon' => 'dashicons-heart',
     ));
 }
 
