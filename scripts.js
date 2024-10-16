@@ -502,7 +502,34 @@
   /* ===============================================================
       Like a Professor Feature
     =============================================================== */
-  class Like {}
+  class Like {
+    constructor() {
+      this.events();
+    }
+
+    events() {
+      $(".like-box").on("click", this.ourClickDispatcher.bind(this));
+    }
+
+    // My methods
+    ourClickDispatcher(e) {
+      var currentLikeBox = $(e.target).closest(".like-box");
+
+      if (currentLikeBox.data("exists") == "yes") {
+        this.deleteLike();
+      } else {
+        this.createLike();
+      }
+    }
+
+    createLike() {
+      console.log("create like");
+    }
+
+    deleteLike() {
+      console.log("delete like");
+    }
+  }
 
   new Like();
 })(jQuery);
