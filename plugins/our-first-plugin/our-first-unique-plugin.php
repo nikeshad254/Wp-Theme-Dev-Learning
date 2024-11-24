@@ -7,13 +7,32 @@ Version: 1.0
 Author: Brad
 Author URI: https://author.com/1234
 */
-
-add_filter('the_content', 'addToEndOfPost');
-
-function addToEndOfPost($content)
+class WordCountAndTimePlugin
 {
-    if (is_single() && is_main_query()) {
-        return $content . '<p>My Name Is Brad</p>';
+    function __construct()
+    {
+        add_action('admin_menu', array($this, 'adminPage'));
     }
-    return $content;
+
+    function adminPage()
+    {
+        add_options_page(
+            'Word Count Settings',
+            'Word Count',
+            'manage_options',
+            'word-count-settings-page',
+            array($this, 'ourHTML')
+        );
+    }
+
+    function ourHTML()
+    {
+?>
+        <div class="wrap">
+            <h1>Word Count Settings</h1>
+        </div>
+<?php
+    }
 }
+
+$wordCountAndTimePlugin = new WordCountAndTimePlugin();
