@@ -1,0 +1,7 @@
+# Positive Prompts (Ignore These)
+/plugins/*
+/upgrade
+/uploads
+
+# Negative Prompts (Dont Ignore These)
+!/plugins/our-first-plugin
