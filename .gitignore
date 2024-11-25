@@ -2,6 +2,7 @@
 /plugins/*
 /upgrade
 /uploads
+/languages
 
 # Negative Prompts (Dont Ignore These)
 !/plugins/our-first-plugin

@@ -6,6 +6,9 @@ Description: A truly amazing plugin
 Version: 1.0
 Author: Brad
 Author URI: https://author.com/1234
+Text Domain: wcpdomain
+Domain Path: /languages
+
 */
 
 
@@ -16,6 +19,12 @@ class WordCountAndTimePlugin
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings'));
         add_filter('the_content', array($this, 'ifWrap'));
+        add_action('init', array($this, 'languages'));
+    }
+
+    function languages()
+    {
+        load_plugin_textdomain('wcpdomain', false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
 
     function ifWrap($content)
@@ -46,7 +55,7 @@ class WordCountAndTimePlugin
         }
 
         if (get_option('wcp_wordcount', '1')) {
-            $html .= "This post has " . $wordCount . ' words.<br />';
+            $html .= esc_html__("This post has", 'wcpdomain') . " " . $wordCount . ' ' . esc_html__('words', 'wcpdomain') . '<br />';
         }
 
         if (get_option('wcp_charactercount', '1')) {
@@ -209,7 +218,7 @@ class WordCountAndTimePlugin
     {
         add_options_page(
             'Word Count Settings',
-            'Word Count',
+            __('Word Count', 'wcpdomain'),
             'manage_options',
             'word-count-settings-page',
             array($this, 'ourHTML')
