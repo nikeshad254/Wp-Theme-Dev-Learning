@@ -5,14 +5,18 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   category: "Common",
   edit: function () {
     // what you will see in admin
-    return wp.element.createElement(
-      "h3",
-      null,
-      "Hello, This is From the admn editor screen"
+    return (
+      <div>
+        <p>Hello, this is paragraph</p>
+      </div>
     );
   },
   save: function () {
     // what user will see on frontend
-    return wp.element.createElement("h3", null, "Hello, This is FrontEnd");
+    return (
+      <div>
+        <h3>asjdlsjds</h3>
+      </div>
+    );
   },
 });

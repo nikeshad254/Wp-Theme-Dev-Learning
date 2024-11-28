@@ -3,6 +3,8 @@
 /upgrade
 /uploads
 /languages
+**/node_modules
+**/build
 
 # Negative Prompts (Dont Ignore These)
 !/plugins/our-first-plugin
