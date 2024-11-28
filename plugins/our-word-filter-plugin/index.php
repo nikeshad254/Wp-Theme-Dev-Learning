@@ -22,13 +22,26 @@ class OurWordFilterPlugin
 
     function ourMenu()
     {
-        add_menu_page(
+
+        // using svg file for icon instead of ascii
+        // add_menu_page(
+        //     "Words To Filter",
+        //     "Word Filter",
+        //     "manage_options",
+        //     "ourwordfilter",
+        //     array($this, "wordFilterPage"),
+        //     plugin_dir_url(__FILE__) . '/custom.svg',
+        //     100
+        // );
+
+        // uses btoa function in console to generate svg to ascii value for icon below
+        $mainPageHook = add_menu_page(
             "Words To Filter",
             "Word Filter",
             "manage_options",
             "ourwordfilter",
             array($this, "wordFilterPage"),
-            "dashicons-smiley",
+            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0ic2l6ZS02Ij4KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMC43ODggMy4yMWMuNDQ4LTEuMDc3IDEuOTc2LTEuMDc3IDIuNDI0IDBsMi4wODIgNS4wMDYgNS40MDQuNDM0YzEuMTY0LjA5MyAxLjYzNiAxLjU0NS43NDkgMi4zMDVsLTQuMTE3IDMuNTI3IDEuMjU3IDUuMjczYy4yNzEgMS4xMzYtLjk2NCAyLjAzMy0xLjk2IDEuNDI1TDEyIDE4LjM1NCA3LjM3MyAyMS4xOGMtLjk5Ni42MDgtMi4yMzEtLjI5LTEuOTYtMS40MjVsMS4yNTctNS4yNzMtNC4xMTctMy41MjdjLS44ODctLjc2LS40MTUtMi4yMTIuNzQ5LTIuMzA1bDUuNDA0LS40MzQgMi4wODItNS4wMDVaIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIC8+Cjwvc3ZnPgo=",
             100
         );
 
@@ -49,11 +62,29 @@ class OurWordFilterPlugin
             "word-filter-options",
             array($this, "optionsSubPage")
         );
+
+        add_action("load-{$mainPageHook}", array($this, 'mainPageAssets'));
+    }
+
+    function mainPageAssets()
+    {
+        wp_enqueue_style('filterAdminCss', plugin_dir_url(__FILE__) . 'styles.css');
     }
 
     function wordFilterPage()
     { ?>
-        HEllo JI
+        <div class="wrap">
+            <h1>Word Filter</h1>
+            <form action="" method="POST">
+                <label for="plugin_words_to_filter">
+                    <p>Enter a <strong>comma-separated</strong> list of words to filter.</p>
+                </label>
+                <div class="word-filter__flex-container">
+                    <textarea name="plugin_words_to_filter" id="plugin_words_to_filter" placeholder="bad, mean, awful, horrible" class=""></textarea>
+                </div>
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
+            </form>
+        </div>
     <?php
     }
 
