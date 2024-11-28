@@ -6,3 +6,4 @@
 
 # Negative Prompts (Dont Ignore These)
 !/plugins/our-first-plugin
+!/plugins/our-word-filter-plugin
