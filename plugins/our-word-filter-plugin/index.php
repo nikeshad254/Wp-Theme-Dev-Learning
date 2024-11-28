@@ -18,6 +18,47 @@ class OurWordFilterPlugin
     function __construct()
     {
         add_action('admin_menu', array($this, 'ourMenu'));
+        add_action('admin_init', array($this, 'ourSettings'));
+        if (get_option('plugin_words_to_filter')) {
+            add_filter('the_content', array($this, 'filterLogic'));
+        }
+    }
+
+    function ourSettings()
+    {
+        add_settings_section(
+            'replacement-text-section',
+            null,
+            null,
+            'word-filter-options'
+        );
+
+        register_setting(
+            'replacementFields',
+            'replacementText'
+        );
+
+        add_settings_field(
+            'replacementText',
+            'Filtered Text',
+            array($this, 'replacementFieldHTML'),
+            'word-filter-options',
+            'replacement-text-section'
+        );
+    }
+
+    function replacementFieldHTML()
+    { ?>
+        <input type="text" name="replacementText" value="<?php echo esc_attr(get_option('replacementText', '***')) ?>">
+        <p class="description">Leave Blank to simply remove the filtered words.</p>
+        <?php
+    }
+
+    function filterLogic($content)
+    {
+        $badWords = explode(',', get_option('plugin_words_to_filter'));
+        $badWordsTrimed = array_map('trim', $badWords);
+        return str_ireplace($badWordsTrimed, esc_html(get_option('replacementText', '****')), $content);
     }
 
     function ourMenu()
@@ -75,7 +116,7 @@ class OurWordFilterPlugin
     {
         if (wp_verify_nonce($_POST['ourNonce'], 'saveFilterWords') and current_user_can('manage_options')) {
             update_option('plugin_words_to_filter', sanitize_text_field($_POST['plugin_words_to_filter']));
-?>
+        ?>
             <div class="updated">
                 <p>Your Filtered Words were saved.</p>
             </div>
@@ -111,7 +152,17 @@ class OurWordFilterPlugin
 
     function optionsSubPage()
     { ?>
-        HEllo JI
+        <div class="wrap">
+            <h1>Word Filter Options</h1>
+            <form action="options.php" method="POST">
+                <?php
+                settings_errors();
+                settings_fields('replacementFields');
+                do_settings_sections('word-filter-options');
+                submit_button();
+                ?>
+            </form>
+        </div>
 <?php
     }
 }
