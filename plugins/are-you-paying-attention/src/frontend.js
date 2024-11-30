@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom";
 import "./frontend.scss";
 
@@ -13,6 +13,7 @@ divsToUpdate.forEach((div) => {
 
 function Quiz(props) {
   const [isCorrect, setIsCorrect] = useState();
+  const [isCorrectDelayed, setIsCorrectDelayed] = useState();
 
   function handleAnswer(index) {
     if (index == props.correctAnswer) {
@@ -22,13 +23,47 @@ function Quiz(props) {
     }
   }
 
+  useEffect(() => {
+    if (isCorrect === false) {
+      setTimeout(() => {
+        setIsCorrect(undefined);
+      }, 2600);
+    }
+
+    if (isCorrect === true) {
+      setTimeout(() => {
+        setIsCorrectDelayed(true);
+      }, 1000);
+    }
+  }, [isCorrect]);
+
   return (
     <div className="paying-attention-frontend">
       <p>{props.question}</p>
       <ul>
         {props.answers.map(function (answer, index) {
           return (
-            <li onClick={() => handleAnswer(index)} key={index}>
+            <li
+              className={
+                (isCorrectDelayed == true && index == props.correctAnswer
+                  ? "no-click"
+                  : "") +
+                (isCorrectDelayed === true && index != props.correctAnswer
+                  ? "fade-incorrect"
+                  : "")
+              }
+              onClick={
+                isCorrect === true ? undefined : () => handleAnswer(index)
+              }
+              key={index}
+            >
+              {isCorrectDelayed === true &&
+                index == props.correctAnswer &&
+                "✔️"}
+
+              {isCorrectDelayed === true &&
+                index != props.correctAnswer &&
+                "❌"}
               {answer}
             </li>
           );
