@@ -3,6 +3,8 @@ import { useSelect } from "@wordpress/data";
 import { useState, useEffect } from "react";
 import apiFetch from "@wordpress/apiFetch";
 
+const __ = wp.i18n.__;
+
 wp.blocks.registerBlockType("ourplugin/featured-professor", {
   title: "Professor Callout",
   description:
@@ -72,7 +74,9 @@ function EditComponent(props) {
         <select
           onChange={(e) => props.setAttributes({ profId: e.target.value })}
         >
-          <option value="">Select a professor</option>
+          <option value="">
+            {__("Select a professor", "featured-professor")}
+          </option>
           {allProfs.map((prof) => (
             <option
               value={prof.id}
