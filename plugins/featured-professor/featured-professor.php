@@ -16,6 +16,23 @@ class FeaturedProfessor
   function __construct()
   {
     add_action('init', [$this, 'onInit']);
+    add_action('rest_api_init', [$this, 'profHTML']);
+  }
+
+  function profHTML()
+  {
+    // creating our own rest api route.
+    // domain/wp-json/featuredProfessor/v1/getHTML
+    register_rest_route('featuredProfessor/v1', 'getHTML', array(
+      'methods' => WP_REST_SERVER::READABLE, // says only get allowed
+      'callback' => [$this, 'getProfHTML']
+    ));
+  }
+
+  function getProfHTML($data)
+  {
+    // urls...?profId=123
+    return generateProfessorHTML($data['profId']);
   }
 
   function onInit()

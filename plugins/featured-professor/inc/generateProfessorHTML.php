@@ -17,10 +17,10 @@ function generateProfessorHTML($id)
                 <p><?php echo wp_trim_words(get_the_content(), 30); ?></p>
 
                 <?php
-                $relatedPrograms = get_field('related_programs');
+                $relatedPrograms = get_field('related_program');
                 if ($relatedPrograms) {
                 ?>
-                    <p>Name teaches:
+                    <p><?= get_the_title(); ?> teaches:
                         <?php foreach ($relatedPrograms as $key => $program) {
                             echo get_the_title($program);
                             if ($key != array_key_last($relatedPrograms) && count($relatedPrograms) > 1) {
