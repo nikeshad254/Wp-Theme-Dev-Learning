@@ -22,6 +22,7 @@ function EditComponent(props) {
   const [thePreview, setPreview] = useState("");
 
   useEffect(() => {
+    updateTheMeta();
     async function getData() {
       const response = await apiFetch({
         path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
@@ -32,6 +33,21 @@ function EditComponent(props) {
 
     getData();
   }, [props.attributes.profId]);
+
+  function updateTheMeta() {
+    const profsForMeta = wp.data
+      .select("core/block-editor")
+      .getBlocks()
+      .filter((x) => x.name == "ourplugin/featured-professor")
+      .map((x) => x.attributes.profId)
+      .filter((x, index, arr) => {
+        return arr.indexOf(x) === index;
+      });
+
+    wp.data
+      .dispatch("core/editor")
+      .editPost({ meta: { featuredprofessor: profsForMeta } });
+  }
 
   const allProfs = useSelect((select) => {
     return select("core").getEntityRecords("postType", "professor", {
