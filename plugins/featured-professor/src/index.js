@@ -34,6 +34,12 @@ function EditComponent(props) {
     getData();
   }, [props.attributes.profId]);
 
+  useEffect(() => {
+    return () => {
+      updateTheMeta();
+    };
+  }, []);
+
   function updateTheMeta() {
     const profsForMeta = wp.data
       .select("core/block-editor")
