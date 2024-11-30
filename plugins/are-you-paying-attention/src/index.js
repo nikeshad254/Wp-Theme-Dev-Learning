@@ -11,6 +11,7 @@ import {
   ColorPicker,
 } from "@wordpress/components";
 import { InspectorControls } from "@wordpress/block-editor";
+import { ChromePicker } from "react-color";
 
 (function () {
   let locked = false; // Move locked outside to maintain state across calls
@@ -90,9 +91,10 @@ function EditComponent(props) {
       <InspectorControls>
         <PanelBody title="Background Color" initialOpen={true}>
           <PanelRow>
-            <ColorPicker
+            <ChromePicker
               color={props.attributes.bgColor}
               onChangeComplete={(x) => props.setAttributes({ bgColor: x.hex })}
+              disableAlpha={true}
             />
           </PanelRow>
         </PanelBody>
