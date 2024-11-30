@@ -8,6 +8,33 @@ import {
   Icon,
 } from "@wordpress/components";
 
+(function () {
+  let locked = false; // Move locked outside to maintain state across calls
+
+  wp.data.subscribe(function () {
+    // runs on any changes in the editors even hovers.
+    const results = wp.data
+      .select("core/block-editor")
+      .getBlocks()
+      .filter(function (block) {
+        return (
+          block.name === "ourplugin/are-you-paying-attention" &&
+          block.attributes.correctAnswer === undefined
+        );
+      });
+
+    if (results.length && !locked) {
+      locked = true; // Set locked to true to prevent repeated calls
+      wp.data.dispatch("core/editor").lockPostSaving("noanswer");
+    }
+
+    if (!results.length && locked) {
+      locked = false; // Set locked to false to allow unlocking
+      wp.data.dispatch("core/editor").unlockPostSaving("noanswer");
+    }
+  });
+})();
+
 // args: Short Name or Variable Names , Configuration Object
 wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   title: "Are You Paying Attention?",
