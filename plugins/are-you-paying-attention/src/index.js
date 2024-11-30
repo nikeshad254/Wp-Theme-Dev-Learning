@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./index.scss";
 import {
   TextControl,
@@ -8,78 +9,48 @@ import {
   Icon,
   PanelBody,
   PanelRow,
-  ColorPicker,
 } from "@wordpress/components";
 import {
   InspectorControls,
   BlockControls,
   AlignmentToolbar,
+  useBlockProps,
 } from "@wordpress/block-editor";
 import { ChromePicker } from "react-color";
+import metadata from "./block.json";
 
-(function () {
-  let locked = false; // Move locked outside to maintain state across calls
+wp.blocks.registerBlockType(metadata.name, { edit: EditComponent });
 
-  wp.data.subscribe(function () {
-    // runs on any changes in the editors even hovers.
+function EditComponent(props) {
+  const [lockedSaveBtn, setLockedSaveBtn] = useState(false);
+
+  useEffect(() => {
     const results = wp.data
       .select("core/block-editor")
       .getBlocks()
       .filter(function (block) {
         return (
           block.name === "ourplugin/are-you-paying-attention" &&
-          block.attributes.correctAnswer === undefined
+          block.attributes.correctAnswer === null
         );
       });
 
-    if (results.length && !locked) {
-      locked = true; // Set locked to true to prevent repeated calls
+    if (results.length && !lockedSaveBtn) {
+      setLockedSaveBtn(true);
       wp.data.dispatch("core/editor").lockPostSaving("noanswer");
     }
 
-    if (!results.length && locked) {
-      locked = false; // Set locked to false to allow unlocking
+    if (!results.length && lockedSaveBtn) {
+      setLockedSaveBtn(false);
       wp.data.dispatch("core/editor").unlockPostSaving("noanswer");
     }
+  }, [props]);
+
+  const blockProps = useBlockProps({
+    className: "paying-attention-edit-block",
+    style: { backgroundColor: props.attributes.bgColor },
   });
-})();
 
-// args: Short Name or Variable Names , Configuration Object
-wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
-  title: "Are You Paying Attention?",
-  icon: "smiley",
-  category: "Common",
-  attributes: {
-    question: { type: "string" },
-    answers: {
-      type: "array",
-      default: [""],
-    },
-    correctAnswer: {
-      type: "number",
-      default: undefined,
-    },
-    bgColor: { type: "string", default: "#ebebeb" },
-    theAlignment: { type: "string", default: "Left" },
-  },
-  description: "Hello This is a Description.",
-  example: {
-    attributes: {
-      question: "What is my name?",
-      correctAnswer: 3,
-      answers: ["Meow", "Bark", "Froggy"],
-      textAlignment: "center",
-      bgColor: "#cfe8f1",
-    },
-  },
-  edit: EditComponent,
-  save: function (props) {
-    // what user will see on frontend
-    return null;
-  },
-});
-
-function EditComponent(props) {
   function updateQuestion(value) {
     props.setAttributes({ question: value });
   }
@@ -90,7 +61,7 @@ function EditComponent(props) {
     );
     props.setAttributes({ answers: newAnswers });
     if (indexToDelete === props.attributes.correctAnswer)
-      props.setAttributes({ correctAnswer: undefined });
+      props.setAttributes({ correctAnswer: null });
   }
 
   function markAsCorrect(index) {
@@ -99,10 +70,7 @@ function EditComponent(props) {
 
   // what you will see in admin
   return (
-    <div
-      className="paying-attention-edit-block"
-      style={{ backgroundColor: props.attributes.bgColor }}
-    >
+    <div {...blockProps}>
       <BlockControls>
         <AlignmentToolbar
           value={props.attributes.theAlignment}
@@ -142,15 +110,26 @@ function EditComponent(props) {
             />
           </FlexBlock>
           <FlexItem>
-            <Button onClick={() => markAsCorrect(index)}>
-              <Icon
-                icon={
-                  props.attributes.correctAnswer === index
-                    ? "star-filled"
-                    : "star-empty"
+            <Button
+              onClick={() => markAsCorrect(index)}
+              className="mark-as-correct-container"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className={
+                  "size-6 " +
+                  (props.attributes.correctAnswer === index
+                    ? "fill"
+                    : "no-fill")
                 }
-                className="mark-as-correct"
-              />
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </Button>
           </FlexItem>
           <FlexItem>
