@@ -6,7 +6,11 @@ import {
   FlexItem,
   Button,
   Icon,
+  PanelBody,
+  PanelRow,
+  ColorPicker,
 } from "@wordpress/components";
+import { InspectorControls } from "@wordpress/block-editor";
 
 (function () {
   let locked = false; // Move locked outside to maintain state across calls
@@ -50,6 +54,7 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
       type: "number",
       default: undefined,
     },
+    bgColor: { type: "string", default: "#ebebeb" },
   },
   edit: EditComponent,
   save: function (props) {
@@ -78,7 +83,21 @@ function EditComponent(props) {
 
   // what you will see in admin
   return (
-    <div className="paying-attention-edit-block">
+    <div
+      className="paying-attention-edit-block"
+      style={{ backgroundColor: props.attributes.bgColor }}
+    >
+      <InspectorControls>
+        <PanelBody title="Background Color" initialOpen={true}>
+          <PanelRow>
+            <ColorPicker
+              color={props.attributes.bgColor}
+              onChangeComplete={(x) => props.setAttributes({ bgColor: x.hex })}
+            />
+          </PanelRow>
+        </PanelBody>
+      </InspectorControls>
+
       <TextControl
         label="Question:"
         value={props.attributes.question}
