@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { createRoot } from "react-dom";
 import "./frontend.scss";
 
@@ -11,14 +12,46 @@ divsToUpdate.forEach((div) => {
 });
 
 function Quiz(props) {
+  const [isCorrect, setIsCorrect] = useState();
+
+  function handleAnswer(index) {
+    if (index == props.correctAnswer) {
+      setIsCorrect(true);
+    } else {
+      setIsCorrect(false);
+    }
+  }
+
   return (
     <div className="paying-attention-frontend">
       <p>{props.question}</p>
       <ul>
-        {props.answers.map(function (answer) {
-          return <li>{answer}</li>;
+        {props.answers.map(function (answer, index) {
+          return (
+            <li onClick={() => handleAnswer(index)} key={index}>
+              {answer}
+            </li>
+          );
         })}
       </ul>
+
+      <div
+        className={
+          "correct-message" +
+          (isCorrect == true ? " correct-message--visible" : "")
+        }
+      >
+        Correct Answer!
+      </div>
+
+      <div
+        className={
+          "incorrect-message" +
+          (isCorrect === false ? " correct-message--visible" : "")
+        }
+      >
+        Sorry, try again!
+      </div>
     </div>
   );
 }
