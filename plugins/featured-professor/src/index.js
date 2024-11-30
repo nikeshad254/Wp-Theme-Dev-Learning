@@ -22,16 +22,19 @@ function EditComponent(props) {
   const [thePreview, setPreview] = useState("");
 
   useEffect(() => {
-    updateTheMeta();
-    async function getData() {
-      const response = await apiFetch({
-        path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
-        method: "GET",
-      });
-      setPreview(response);
-    }
+    if (props.attributes.profId) {
+      updateTheMeta();
+      async function getData() {
+        const response = await apiFetch({
+          path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
+          method: "GET",
+        });
+        setPreview(response);
+      }
 
-    getData();
+      getData();
+    }
+    setPreview("");
   }, [props.attributes.profId]);
 
   useEffect(() => {
