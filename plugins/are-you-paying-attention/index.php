@@ -33,8 +33,12 @@ class AreYouPayingAttention
 
     function theHTML($attributes)
     {
+        if (!is_admin()) {
+            wp_enqueue_script("attentionFrontend", plugin_dir_url(__FILE__) . "build/frontend.js", array("react-jsx-runtime", "wp-element"), '1.0', true);
+            wp_enqueue_style("attentionFrontendCss", plugin_dir_url(__FILE__) . "build/frontend.css");
+        }
         ob_start(); ?>
-        <h3>Today the sky is <?= esc_html($attributes['skyColor']) ?> and grass is <?= esc_html($attributes['grassColor']) ?></h3>
+        <div class="paying-attention-update-me">Remove Me PLZ</div>
 <?php return ob_get_clean();
     }
 }
