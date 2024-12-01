@@ -43,8 +43,21 @@ get_header(); ?>
     <?php
     }
     ?>
-
   </table>
+
+  <?php
+
+  if (current_user_can('administrator')) { ?>
+    <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="create-pet-form" method="POST">
+      <p>Enter Just the name for new pet. Other details will be random</p>
+      <input type="hidden" name="action" value="createpet">
+      <input type="text" name="incommingpetname" placeholder="name...">
+      <button>Add Pet</button>
+    </form>
+  <?php
+  }
+
+  ?>
 
 </div>
 
