@@ -26,6 +26,8 @@ class GetPets
         if (!empty($this->placeholders)) {
             $query = $wpdb->prepare($query, $this->placeholders);
             $this->count = $wpdb->get_var($wpdb->prepare($countQuery, $this->placeholders));
+        } else {
+            $this->count = $wpdb->get_var($wpdb->prepare($countQuery));
         }
 
         $this->pets = $wpdb->get_results($query);

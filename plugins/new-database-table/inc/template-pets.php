@@ -16,7 +16,7 @@ get_header(); ?>
 
 <div class="container container--narrow page-section">
 
-  <p>This page took <strong><?php echo timer_stop(); ?></strong> seconds to prepare. Found <strong><?= $getPets->count; ?></strong> results (showing the first <?= count($getPets->pets) ?>).</p>
+  <p>This page took <strong><?php echo timer_stop(); ?></strong> seconds to prepare. Found <strong><?php echo number_format($getPets->count); ?></strong> results (showing the first <?= count($getPets->pets) ?>).</p>
 
   <table class="pet-adoption-table">
     <tr>
@@ -27,6 +27,12 @@ get_header(); ?>
       <th>Hobby</th>
       <th>Favorite Color</th>
       <th>Favorite Food</th>
+      <?php
+      if (current_user_can('administrator')) {
+        echo "<th>Delete</th>";
+      }
+      ?>
+      <th></th>
     </tr>
     <?php
     foreach ($getPets->pets as $pet) {
@@ -39,6 +45,17 @@ get_header(); ?>
         <td><?= $pet->favhobby; ?></td>
         <td><?= $pet->favcolor; ?></td>
         <td><?= $pet->favfood; ?></td>
+        <?php if (current_user_can('administrator')) {
+        ?>
+          <td>
+            <form action="<?= esc_url(admin_url('admin-post.php')) ?>" method="POST">
+              <input type="hidden" name="action" value="deletepet">
+              <input type="hidden" name="idtodelete" value="<?= $pet->id ?>">
+              <button class="delete-pet-button">X</button>
+            </form>
+          </td>
+        <?php
+        } ?>
       </tr>
     <?php
     }
