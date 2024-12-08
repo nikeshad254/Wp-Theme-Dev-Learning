@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "wp-scripts start our-blocks/banner.js"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.6.0",
+    "ajv": "^8.17.1"
+  }
+}
